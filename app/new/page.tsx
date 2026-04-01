@@ -112,7 +112,7 @@ export default function NewPostPage() {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-indigo-50 via-white to-sky-50">
+    <main className="aurora-bg min-h-screen">
       <div className="mx-auto max-w-4xl px-6 py-12">
         <div className="mb-8">
           <Link
@@ -123,22 +123,22 @@ export default function NewPostPage() {
           </Link>
         </div>
 
-        <header className="relative mb-8 overflow-hidden rounded-3xl border border-indigo-100 bg-white/90 p-8 shadow-sm backdrop-blur">
-          <div className="pointer-events-none absolute -right-14 -top-16 h-40 w-40 rounded-full bg-indigo-200/50 blur-2xl" />
-          <p className="mb-3 inline-block rounded-full bg-indigo-100 px-3 py-1 text-sm font-medium text-indigo-700">
+        <header className="relative mb-8 overflow-hidden rounded-3xl border border-violet-200/60 bg-gradient-to-br from-violet-600 via-indigo-600 to-sky-600 p-8 text-white shadow-xl shadow-indigo-200/50">
+          <div className="pointer-events-none absolute -right-14 -top-16 h-40 w-40 rounded-full bg-fuchsia-300/30 blur-2xl" />
+          <p className="mb-3 inline-block rounded-full border border-white/40 bg-white/20 px-3 py-1 text-sm font-medium text-white">
             Create New Post
           </p>
-          <h1 className="text-4xl font-bold tracking-tight text-slate-900">
+          <h1 className="text-4xl font-bold tracking-tight text-white">
             新しい記事を書く
           </h1>
-          <p className="mt-3 text-base leading-7 text-slate-600">
+          <p className="mt-3 text-base leading-7 text-indigo-50">
             AIで本文やタイトルを補助しながら、ブログ記事を作成できます。
           </p>
         </header>
 
         <form
           onSubmit={handleSubmit}
-          className="space-y-8 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
+          className="glass-card space-y-8 rounded-3xl p-8"
         >
           <section className="rounded-2xl border border-indigo-100 bg-indigo-50/50 p-6">
             <div className="mb-4">

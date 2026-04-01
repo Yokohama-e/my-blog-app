@@ -78,7 +78,7 @@ export default function PostDetailPage() {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-indigo-50 via-white to-sky-50">
+    <main className="aurora-bg min-h-screen">
       <div className="mx-auto max-w-4xl px-6 py-12">
         <div className="mb-8">
           <Link
@@ -89,8 +89,8 @@ export default function PostDetailPage() {
           </Link>
         </div>
 
-        <article className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
-          <p className="mb-3 inline-block rounded-full bg-indigo-100 px-3 py-1 text-sm font-medium text-indigo-700">
+        <article className="glass-card rounded-3xl p-8">
+          <p className="mb-3 inline-block rounded-full bg-violet-100 px-3 py-1 text-sm font-medium text-violet-700">
             Post Detail
           </p>
           <h1 className="text-4xl font-bold tracking-tight text-slate-900">

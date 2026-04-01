@@ -65,14 +65,37 @@ export default function HomePage() {
               </p>
             </div>
 
-            <Link
-              href="/new"
-              className="relative inline-flex items-center justify-center rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-indigo-700 shadow-lg transition hover:-translate-y-0.5 hover:bg-indigo-50"
-            >
-              新しい記事を書く
-            </Link>
+            {isAdminMode ? (
+              <Link
+                href="/new"
+                className="relative inline-flex items-center justify-center rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-indigo-700 shadow-lg transition hover:-translate-y-0.5 hover:bg-indigo-50"
+              >
+                新しい記事を書く
+              </Link>
+            ) : null}
           </div>
         </header>
+
+        <section className="glass-card mb-10 grid overflow-hidden rounded-3xl md:grid-cols-2">
+          <div className="p-8">
+            <p className="mb-3 inline-block rounded-full bg-violet-100 px-3 py-1 text-xs font-semibold tracking-wide text-violet-700">
+              Featured Story
+            </p>
+            <h2 className="text-3xl font-bold tracking-tight text-slate-900">
+              AIと一緒に、50代からの開発を楽しむ
+            </h2>
+            <p className="mt-4 leading-7 text-slate-600">
+              つまずきも含めて全部コンテンツに。毎日の小さな進歩を記録するブログです。
+            </p>
+          </div>
+          <div className="relative min-h-[220px]">
+            <img
+              src="https://picsum.photos/seed/ai-blog-hero/900/600"
+              alt="ブログのメインイメージ"
+              className="h-full w-full object-cover"
+            />
+          </div>
+        </section>
 
         <section className="mb-10 grid gap-4 sm:grid-cols-3">
           <div className="rounded-2xl border border-violet-100 bg-white/90 p-5 shadow-sm">
@@ -105,12 +128,14 @@ export default function HomePage() {
               <p className="mt-3 text-slate-600">
                 最初の記事を書いて、あなただけのブログを始めましょう。
               </p>
-              <Link
-                href="/new"
-                className="mt-6 inline-flex rounded-2xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-indigo-500"
-              >
-                記事を作成する
-              </Link>
+              {isAdminMode ? (
+                <Link
+                  href="/new"
+                  className="mt-6 inline-flex rounded-2xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-indigo-500"
+                >
+                  記事を作成する
+                </Link>
+              ) : null}
             </div>
           </section>
         ) : (
@@ -120,6 +145,13 @@ export default function HomePage() {
                 key={post.id}
                 className="group rounded-3xl border border-slate-200/80 bg-white/95 p-6 shadow-md transition hover:-translate-y-1 hover:border-violet-200 hover:shadow-xl"
               >
+                <div className="-mx-6 -mt-6 mb-4 overflow-hidden rounded-t-3xl">
+                  <img
+                    src={`https://picsum.photos/seed/post-${post.id}/900/420`}
+                    alt={`${post.title} のサムネイル`}
+                    className="h-44 w-full object-cover transition duration-500 group-hover:scale-105"
+                  />
+                </div>
                 <div className="mb-4 flex items-start justify-between gap-4">
                   <div className="flex-1">
                     <p className="mb-2 text-sm font-medium text-violet-400">
