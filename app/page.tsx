@@ -41,27 +41,27 @@ export default function HomePage() {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-indigo-50 via-white to-sky-50">
+    <main className="min-h-screen bg-[radial-gradient(circle_at_top,_#ede9fe,_#dbeafe_35%,_#ffffff_70%)]">
       <div className="mx-auto max-w-5xl px-6 py-12">
-        <header className="relative mb-8 overflow-hidden rounded-3xl border border-indigo-100 bg-white/90 p-8 shadow-sm backdrop-blur">
-          <div className="pointer-events-none absolute -right-14 -top-16 h-48 w-48 rounded-full bg-indigo-200/50 blur-2xl" />
-          <div className="pointer-events-none absolute -bottom-20 -left-12 h-52 w-52 rounded-full bg-sky-200/40 blur-2xl" />
+        <header className="relative mb-8 overflow-hidden rounded-3xl border border-violet-200/60 bg-gradient-to-br from-violet-600 via-indigo-600 to-sky-600 p-8 text-white shadow-xl shadow-indigo-200/60">
+          <div className="pointer-events-none absolute -right-14 -top-16 h-48 w-48 rounded-full bg-fuchsia-300/30 blur-2xl" />
+          <div className="pointer-events-none absolute -bottom-20 -left-12 h-52 w-52 rounded-full bg-cyan-300/30 blur-2xl" />
           <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <div className="relative">
-              <p className="mb-3 inline-block rounded-full bg-indigo-100 px-3 py-1 text-sm font-medium text-indigo-700">
-                My First AI Blog App
+              <p className="mb-3 inline-block rounded-full border border-white/40 bg-white/20 px-3 py-1 text-sm font-medium text-white backdrop-blur">
+                50代からのAIと学ぶ開発ログ
               </p>
-              <h1 className="text-4xl font-bold tracking-tight text-slate-900 md:text-5xl">
-                My Blog
+              <h1 className="text-4xl font-extrabold tracking-tight text-white drop-shadow-sm md:text-5xl">
+                50代からのAI開発記録
               </h1>
-              <p className="mt-3 text-base leading-7 text-slate-600">
-                AIと一緒に記事を育てる、シンプルで見やすいブログ。
+              <p className="mt-3 text-base leading-7 text-indigo-50">
+                AIと一緒に記事を育てる、やさしくて少し楽しいブログ。
               </p>
             </div>
 
             <Link
               href="/new"
-              className="relative inline-flex items-center justify-center rounded-2xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-700"
+              className="relative inline-flex items-center justify-center rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-indigo-700 shadow-lg transition hover:-translate-y-0.5 hover:bg-indigo-50"
             >
               新しい記事を書く
             </Link>
@@ -69,23 +69,23 @@ export default function HomePage() {
         </header>
 
         <section className="mb-10 grid gap-4 sm:grid-cols-3">
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+          <div className="rounded-2xl border border-violet-100 bg-white/90 p-5 shadow-sm">
+            <p className="text-xs font-semibold uppercase tracking-wider text-violet-500">
               Articles
             </p>
-            <p className="mt-2 text-3xl font-bold text-slate-900">{posts.length}</p>
+            <p className="mt-2 text-3xl font-bold text-violet-700">{posts.length}</p>
           </div>
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+          <div className="rounded-2xl border border-sky-100 bg-white/90 p-5 shadow-sm">
+            <p className="text-xs font-semibold uppercase tracking-wider text-sky-500">
               Characters
             </p>
-            <p className="mt-2 text-3xl font-bold text-slate-900">{totalChars}</p>
+            <p className="mt-2 text-3xl font-bold text-sky-700">{totalChars}</p>
           </div>
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+          <div className="rounded-2xl border border-fuchsia-100 bg-white/90 p-5 shadow-sm">
+            <p className="text-xs font-semibold uppercase tracking-wider text-fuchsia-500">
               Avg / Post
             </p>
-            <p className="mt-2 text-3xl font-bold text-slate-900">{avgChars}</p>
+            <p className="mt-2 text-3xl font-bold text-fuchsia-700">{avgChars}</p>
           </div>
         </section>
 
@@ -112,17 +112,17 @@ export default function HomePage() {
             {posts.map((post) => (
               <article
                 key={post.id}
-                className="group rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:border-indigo-200 hover:shadow-lg"
+                className="group rounded-3xl border border-slate-200/80 bg-white/95 p-6 shadow-md transition hover:-translate-y-1 hover:border-violet-200 hover:shadow-xl"
               >
                 <div className="mb-4 flex items-start justify-between gap-4">
                   <div className="flex-1">
-                    <p className="mb-2 text-sm font-medium text-slate-400">
+                    <p className="mb-2 text-sm font-medium text-violet-400">
                       Post #{post.id}
                     </p>
                     <h2 className="text-2xl font-bold tracking-tight text-slate-900">
                       <Link
                         href={`/posts/${post.id}`}
-                        className="transition group-hover:text-indigo-700"
+                        className="transition group-hover:text-violet-700"
                       >
                         {post.title}
                       </Link>
@@ -148,7 +148,7 @@ export default function HomePage() {
 
                   <Link
                     href={`/edit/${post.id}`}
-                    className="rounded-xl border border-blue-200 bg-blue-50 px-4 py-2 text-sm font-medium text-blue-700 transition hover:bg-blue-100"
+                    className="rounded-xl border border-violet-200 bg-violet-50 px-4 py-2 text-sm font-medium text-violet-700 transition hover:bg-violet-100"
                   >
                     編集
                   </Link>
