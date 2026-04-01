@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter, useParams } from "next/navigation";
+import { getAdminHeaders } from "@/lib/admin-client";
 
 export default function EditPage() {
   const router = useRouter();
@@ -44,6 +45,8 @@ export default function EditPage() {
 
   const handleUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
+    const adminHeaders = getAdminHeaders();
+    if (!adminHeaders) return;
 
     try {
       setIsSaving(true);
@@ -51,6 +54,7 @@ export default function EditPage() {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
+          ...adminHeaders,
         },
         body: JSON.stringify({ title, content }),
       });

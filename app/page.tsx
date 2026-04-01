@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { getAdminHeaders, hasStoredAdminKey } from "@/lib/admin-client";
 
 type Post = {
   id: number;
@@ -11,6 +12,7 @@ type Post = {
 
 export default function HomePage() {
   const [posts, setPosts] = useState<Post[]>([]);
+  const [isAdminMode, setIsAdminMode] = useState(false);
   const totalChars = posts.reduce((sum, post) => sum + post.content.length, 0);
   const avgChars = posts.length > 0 ? Math.round(totalChars / posts.length) : 0;
 
@@ -22,13 +24,17 @@ export default function HomePage() {
 
   useEffect(() => {
     loadPosts();
+    setIsAdminMode(hasStoredAdminKey());
   }, []);
 
   const handleDelete = async (id: number) => {
     if (!confirm("削除しますか？")) return;
+    const adminHeaders = getAdminHeaders();
+    if (!adminHeaders) return;
 
     const res = await fetch(`/api/posts/${id}`, {
       method: "DELETE",
+      headers: adminHeaders,
     });
 
     const data = await res.json();
@@ -145,25 +151,33 @@ export default function HomePage() {
                   >
                     詳細を見る
                   </Link>
+                  {isAdminMode ? (
+                    <>
+                      <Link
+                        href={`/edit/${post.id}`}
+                        className="rounded-xl border border-violet-200 bg-violet-50 px-4 py-2 text-sm font-medium text-violet-700 transition hover:bg-violet-100"
+                      >
+                        編集
+                      </Link>
 
-                  <Link
-                    href={`/edit/${post.id}`}
-                    className="rounded-xl border border-violet-200 bg-violet-50 px-4 py-2 text-sm font-medium text-violet-700 transition hover:bg-violet-100"
-                  >
-                    編集
-                  </Link>
-
-                  <button
-                    onClick={() => handleDelete(post.id)}
-                    className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-2 text-sm font-medium text-rose-700 transition hover:bg-rose-100"
-                  >
-                    削除
-                  </button>
+                      <button
+                        onClick={() => handleDelete(post.id)}
+                        className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-2 text-sm font-medium text-rose-700 transition hover:bg-rose-100"
+                      >
+                        削除
+                      </button>
+                    </>
+                  ) : null}
                 </div>
               </article>
             ))}
           </section>
         )}
+        {!isAdminMode ? (
+          <p className="mt-6 text-center text-xs text-slate-400">
+            公開モードでは編集・削除は表示されません。
+          </p>
+        ) : null}
       </div>
     </main>
   );

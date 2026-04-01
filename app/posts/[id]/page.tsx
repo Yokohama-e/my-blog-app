@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter, useParams } from "next/navigation";
+import { getAdminHeaders, hasStoredAdminKey } from "@/lib/admin-client";
 
 type Post = {
   id: number;
@@ -18,6 +19,7 @@ export default function PostDetailPage() {
   const [post, setPost] = useState<Post | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isAdminMode, setIsAdminMode] = useState(false);
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -44,15 +46,19 @@ export default function PostDetailPage() {
     if (id) {
       fetchPost();
     }
+    setIsAdminMode(hasStoredAdminKey());
   }, [id, router]);
 
   const handleDelete = async () => {
     if (!confirm("この記事を削除しますか？")) return;
+    const adminHeaders = getAdminHeaders();
+    if (!adminHeaders) return;
 
     try {
       setIsDeleting(true);
       const res = await fetch(`/api/posts/${id}`, {
         method: "DELETE",
+        headers: adminHeaders,
       });
       const data = await res.json();
 
@@ -99,21 +105,27 @@ export default function PostDetailPage() {
             {isLoading ? "記事を読み込んでいます..." : post?.content}
           </div>
 
-          <div className="mt-10 flex flex-wrap gap-3 border-t border-slate-200 pt-6">
-            <Link
-              href={`/edit/${id}`}
-              className="inline-flex items-center justify-center rounded-2xl border border-indigo-200 bg-indigo-50 px-5 py-3 text-sm font-semibold text-indigo-700 transition hover:bg-indigo-100"
-            >
-              編集する
-            </Link>
-            <button
-              onClick={handleDelete}
-              disabled={isDeleting || isLoading}
-              className="inline-flex items-center justify-center rounded-2xl border border-rose-200 bg-rose-50 px-5 py-3 text-sm font-semibold text-rose-700 transition hover:bg-rose-100 disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              {isDeleting ? "削除中..." : "削除する"}
-            </button>
-          </div>
+          {isAdminMode ? (
+            <div className="mt-10 flex flex-wrap gap-3 border-t border-slate-200 pt-6">
+              <Link
+                href={`/edit/${id}`}
+                className="inline-flex items-center justify-center rounded-2xl border border-indigo-200 bg-indigo-50 px-5 py-3 text-sm font-semibold text-indigo-700 transition hover:bg-indigo-100"
+              >
+                編集する
+              </Link>
+              <button
+                onClick={handleDelete}
+                disabled={isDeleting || isLoading}
+                className="inline-flex items-center justify-center rounded-2xl border border-rose-200 bg-rose-50 px-5 py-3 text-sm font-semibold text-rose-700 transition hover:bg-rose-100 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {isDeleting ? "削除中..." : "削除する"}
+              </button>
+            </div>
+          ) : (
+            <p className="mt-10 border-t border-slate-200 pt-6 text-xs text-slate-400">
+              公開モードでは編集・削除は表示されません。
+            </p>
+          )}
         </article>
       </div>
     </main>

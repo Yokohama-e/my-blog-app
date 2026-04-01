@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { getAdminHeaders } from "@/lib/admin-client";
 
 type Post = {
   id: number;
@@ -87,11 +88,14 @@ export default function NewPostPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const adminHeaders = getAdminHeaders();
+    if (!adminHeaders) return;
 
     const res = await fetch("/api/posts", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        ...adminHeaders,
       },
       body: JSON.stringify({ title, content }),
     });

@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { isAdminAuthorized, unauthorizedResponse } from "@/lib/admin-auth";
 import { prisma } from "@/lib/prisma";
 
 export async function GET() {
@@ -10,6 +11,10 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
+  if (!isAdminAuthorized(req)) {
+    return unauthorizedResponse();
+  }
+
   try {
     const { title, content } = await req.json();
 

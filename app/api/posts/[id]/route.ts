@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { isAdminAuthorized, unauthorizedResponse } from "@/lib/admin-auth";
 import { prisma } from "@/lib/prisma";
 
 type RouteContext = {
@@ -33,6 +34,10 @@ export async function GET(_req: Request, context: RouteContext) {
 }
 
 export async function PUT(req: Request, context: RouteContext) {
+  if (!isAdminAuthorized(req)) {
+    return unauthorizedResponse();
+  }
+
   try {
     const { id } = await context.params;
     const { title, content } = await req.json();
@@ -55,7 +60,11 @@ export async function PUT(req: Request, context: RouteContext) {
   }
 }
 
-export async function DELETE(_req: Request, context: RouteContext) {
+export async function DELETE(req: Request, context: RouteContext) {
+  if (!isAdminAuthorized(req)) {
+    return unauthorizedResponse();
+  }
+
   try {
     const { id } = await context.params;
 
