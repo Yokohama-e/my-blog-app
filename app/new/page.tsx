@@ -113,8 +113,8 @@ export default function NewPostPage() {
 
   return (
     <main className="aurora-bg min-h-screen">
-      <div className="mx-auto max-w-4xl px-6 py-12">
-        <div className="mb-8">
+      <div className="mx-auto max-w-4xl px-4 py-8 md:px-6 md:py-12">
+        <div className="mb-6 md:mb-8">
           <Link
             href="/"
             className="inline-flex items-center gap-2 text-sm font-medium text-slate-500 transition hover:text-slate-800"
@@ -123,12 +123,12 @@ export default function NewPostPage() {
           </Link>
         </div>
 
-        <header className="relative mb-8 overflow-hidden rounded-3xl border border-violet-200/60 bg-gradient-to-br from-violet-600 via-indigo-600 to-sky-600 p-8 text-white shadow-xl shadow-indigo-200/50">
+        <header className="relative mb-6 overflow-hidden rounded-3xl border border-violet-200/60 bg-gradient-to-br from-violet-600 via-indigo-600 to-sky-600 p-6 text-white shadow-xl shadow-indigo-200/50 md:mb-8 md:p-8">
           <div className="pointer-events-none absolute -right-14 -top-16 h-40 w-40 rounded-full bg-fuchsia-300/30 blur-2xl" />
           <p className="mb-3 inline-block rounded-full border border-white/40 bg-white/20 px-3 py-1 text-sm font-medium text-white">
             Create New Post
           </p>
-          <h1 className="text-4xl font-bold tracking-tight text-white">
+          <h1 className="text-3xl font-bold tracking-tight text-white md:text-4xl">
             新しい記事を書く
           </h1>
           <p className="mt-3 text-base leading-7 text-indigo-50">
@@ -138,7 +138,7 @@ export default function NewPostPage() {
 
         <form
           onSubmit={handleSubmit}
-          className="glass-card space-y-8 rounded-3xl p-8"
+          className="glass-card space-y-6 rounded-3xl p-5 md:space-y-8 md:p-8"
         >
           <section className="rounded-2xl border border-indigo-100 bg-indigo-50/50 p-6">
             <div className="mb-4">
@@ -165,7 +165,7 @@ export default function NewPostPage() {
               type="button"
               onClick={handleGenerateContent}
               disabled={isGeneratingContent}
-              className="mt-4 inline-flex rounded-2xl border border-indigo-200 bg-white px-5 py-3 text-sm font-semibold text-indigo-700 transition hover:bg-indigo-50 disabled:cursor-not-allowed disabled:opacity-50"
+              className="mt-4 inline-flex w-full justify-center rounded-2xl border border-indigo-200 bg-white px-5 py-3 text-sm font-semibold text-indigo-700 transition hover:bg-indigo-50 disabled:cursor-not-allowed disabled:opacity-50 md:w-auto"
             >
               {isGeneratingContent ? "AI本文生成中..." : "AIで本文生成"}
             </button>
@@ -188,7 +188,7 @@ export default function NewPostPage() {
                 type="button"
                 onClick={handleGenerateTitle}
                 disabled={isGeneratingTitle}
-                className="shrink-0 rounded-2xl border border-indigo-200 bg-indigo-50 px-5 py-3 text-sm font-semibold text-indigo-700 transition hover:bg-indigo-100 disabled:cursor-not-allowed disabled:opacity-50"
+                className="w-full shrink-0 rounded-2xl border border-indigo-200 bg-indigo-50 px-5 py-3 text-sm font-semibold text-indigo-700 transition hover:bg-indigo-100 disabled:cursor-not-allowed disabled:opacity-50 md:w-auto"
               >
                 {isGeneratingTitle ? "AI生成中..." : "AIでタイトル生成"}
               </button>
@@ -210,14 +210,14 @@ export default function NewPostPage() {
           <div className="flex flex-col gap-3 border-t border-slate-200 pt-6 md:flex-row md:justify-end">
             <Link
               href="/"
-              className="inline-flex items-center justify-center rounded-2xl border border-slate-200 px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+              className="inline-flex w-full items-center justify-center rounded-2xl border border-slate-200 px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 md:w-auto"
             >
               キャンセル
             </Link>
 
             <button
               type="submit"
-              className="inline-flex items-center justify-center rounded-2xl bg-indigo-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-500"
+              className="inline-flex w-full items-center justify-center rounded-2xl bg-indigo-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-500 md:w-auto"
             >
               保存する
             </button>

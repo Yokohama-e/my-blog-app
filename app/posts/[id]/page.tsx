@@ -157,8 +157,8 @@ export default function PostDetailPage() {
 
   return (
     <main className="aurora-bg min-h-screen">
-      <div className="mx-auto max-w-4xl px-6 py-12">
-        <div className="mb-8">
+      <div className="mx-auto max-w-4xl px-4 py-8 md:px-6 md:py-12">
+        <div className="mb-6 md:mb-8">
           <Link
             href="/"
             className="inline-flex items-center gap-2 text-sm font-medium text-slate-500 transition hover:text-slate-800"
@@ -167,11 +167,11 @@ export default function PostDetailPage() {
           </Link>
         </div>
 
-        <article className="glass-card rounded-3xl p-8">
+        <article className="glass-card rounded-3xl p-5 md:p-8">
           <p className="mb-3 inline-block rounded-full bg-violet-100 px-3 py-1 text-sm font-medium text-violet-700">
             Post Detail
           </p>
-          <h1 className="text-4xl font-bold tracking-tight text-slate-900">
+          <h1 className="text-3xl font-bold tracking-tight text-slate-900 md:text-4xl">
             {isLoading ? "読み込み中..." : post?.title}
           </h1>
 
@@ -206,7 +206,7 @@ export default function PostDetailPage() {
           )}
         </article>
 
-        <section className="glass-card mt-8 rounded-3xl p-8">
+        <section className="glass-card mt-8 rounded-3xl p-5 md:p-8">
           <h2 className="text-2xl font-bold text-slate-900">コメント</h2>
           <p className="mt-2 text-sm text-slate-500">
             感想や質問を気軽に残してください。
@@ -228,7 +228,7 @@ export default function PostDetailPage() {
             <button
               type="submit"
               disabled={isSubmittingComment}
-              className="rounded-xl bg-violet-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-violet-500 disabled:cursor-not-allowed disabled:opacity-50"
+              className="w-full rounded-xl bg-violet-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-violet-500 disabled:cursor-not-allowed disabled:opacity-50 md:w-auto"
             >
               {isSubmittingComment ? "投稿中..." : "コメントを投稿"}
             </button>
