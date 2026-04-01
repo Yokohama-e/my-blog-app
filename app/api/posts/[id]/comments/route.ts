@@ -33,17 +33,19 @@ export async function POST(req: Request, context: RouteContext) {
     const postId = Number(id);
     const { author, content } = await req.json();
 
-    if (!author?.trim() || !content?.trim()) {
+    if (!content?.trim()) {
       return NextResponse.json(
-        { error: "名前とコメントは必須です。" },
+        { error: "コメントは必須です。" },
         { status: 400 }
       );
     }
 
+    const normalizedAuthor = author?.trim() || "匿名さん";
+
     const comment = await prisma.comment.create({
       data: {
         postId,
-        author: author.trim(),
+        author: normalizedAuthor,
         content: content.trim(),
       },
     });

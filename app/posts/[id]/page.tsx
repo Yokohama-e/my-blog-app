@@ -70,8 +70,8 @@ export default function PostDetailPage() {
   const handleSubmitComment = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!author.trim() || !commentText.trim()) {
-      alert("名前とコメントを入力してください。");
+    if (!commentText.trim()) {
+      alert("コメントを入力してください。");
       return;
     }
 
@@ -83,7 +83,7 @@ export default function PostDetailPage() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          author,
+          author: author.trim() || "匿名さん",
           content: commentText,
         }),
       });
@@ -216,7 +216,7 @@ export default function PostDetailPage() {
             <input
               value={author}
               onChange={(e) => setAuthor(e.target.value)}
-              placeholder="お名前"
+              placeholder="ニックネーム（任意）"
               className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none transition focus:border-violet-300"
             />
             <textarea
