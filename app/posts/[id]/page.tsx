@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
+import { useRouter, useParams } from "next/navigation";
 
 type Post = {
   id: number;
@@ -10,103 +10,111 @@ type Post = {
   content: string;
 };
 
-export default function EditPostPage() {
-  const params = useParams();
+export default function PostDetailPage() {
   const router = useRouter();
+  const params = useParams<{ id: string }>();
+  const id = params.id;
 
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [loaded, setLoaded] = useState(false);
+  const [post, setPost] = useState<Post | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
-    const savedPosts = localStorage.getItem("posts");
-    const posts: Post[] = savedPosts ? JSON.parse(savedPosts) : [];
+    const fetchPost = async () => {
+      try {
+        setIsLoading(true);
+        const res = await fetch(`/api/posts/${id}`);
+        const data = await res.json();
 
-    const foundPost = posts.find(
-      (p) => p.id.toString() === params.id
-    );
+        if (!res.ok || !data) {
+          alert(data?.error || "記事が見つかりません");
+          router.push("/");
+          return;
+        }
 
-    if (foundPost) {
-      setTitle(foundPost.title);
-      setContent(foundPost.content);
+        setPost(data);
+      } catch (error) {
+        console.error(error);
+        alert("記事の取得に失敗しました。");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (id) {
+      fetchPost();
     }
+  }, [id, router]);
 
-    setLoaded(true);
-  }, [params.id]);
+  const handleDelete = async () => {
+    if (!confirm("この記事を削除しますか？")) return;
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+    try {
+      setIsDeleting(true);
+      const res = await fetch(`/api/posts/${id}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
 
-    const savedPosts = localStorage.getItem("posts");
-    const posts: Post[] = savedPosts ? JSON.parse(savedPosts) : [];
+      if (!res.ok) {
+        alert(data.error || "削除に失敗しました。");
+        return;
+      }
 
-    const updatedPosts = posts.map((post) =>
-      post.id.toString() === params.id
-        ? { ...post, title, content }
-        : post
-    );
-
-    localStorage.setItem("posts", JSON.stringify(updatedPosts));
-    router.push("/");
+      router.push("/");
+      router.refresh();
+    } catch (error) {
+      console.error(error);
+      alert("削除に失敗しました。");
+    } finally {
+      setIsDeleting(false);
+    }
   };
 
-  if (!loaded) {
-    return (
-      <main className="min-h-screen bg-gray-50">
-        <div className="max-w-2xl mx-auto p-6">
-          <p>読み込み中...</p>
-        </div>
-      </main>
-    );
-  }
-
   return (
-    <main className="min-h-screen bg-gray-50">
-      <div className="max-w-2xl mx-auto p-6">
-        <div className="mb-4">
-          <Link href="/" className="text-blue-600 hover:underline">
-            ← トップページへ戻る
+    <main className="min-h-screen bg-gradient-to-b from-indigo-50 via-white to-sky-50">
+      <div className="mx-auto max-w-4xl px-6 py-12">
+        <div className="mb-8">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 text-sm font-medium text-slate-500 transition hover:text-slate-800"
+          >
+            ← トップへ戻る
           </Link>
         </div>
 
-        <h1 className="text-3xl font-bold mb-6">記事を編集する</h1>
+        <article className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
+          <p className="mb-3 inline-block rounded-full bg-indigo-100 px-3 py-1 text-sm font-medium text-indigo-700">
+            Post Detail
+          </p>
+          <h1 className="text-4xl font-bold tracking-tight text-slate-900">
+            {isLoading ? "読み込み中..." : post?.title}
+          </h1>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block mb-2 text-sm font-medium">タイトル</label>
-            <input
-              type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              className="w-full rounded-lg border bg-white p-3"
-            />
+          <p className="mt-4 text-sm text-slate-400">
+            {post ? `Post #${post.id} ・ ${post.content.length} characters` : ""}
+          </p>
+
+          <div className="mt-8 whitespace-pre-wrap text-base leading-8 text-slate-700">
+            {isLoading ? "記事を読み込んでいます..." : post?.content}
           </div>
 
-          <div>
-            <label className="block mb-2 text-sm font-medium">本文</label>
-            <textarea
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              className="w-full rounded-lg border bg-white p-3 h-64"
-            />
-          </div>
-
-          <div className="flex gap-3">
-            <button
-              type="submit"
-              className="rounded-lg bg-black px-4 py-2 text-white"
-            >
-              更新する
-            </button>
-
+          <div className="mt-10 flex flex-wrap gap-3 border-t border-slate-200 pt-6">
             <Link
-              href="/"
-              className="rounded-lg border px-4 py-2 bg-white"
+              href={`/edit/${id}`}
+              className="inline-flex items-center justify-center rounded-2xl border border-indigo-200 bg-indigo-50 px-5 py-3 text-sm font-semibold text-indigo-700 transition hover:bg-indigo-100"
             >
-              戻る
+              編集する
             </Link>
+            <button
+              onClick={handleDelete}
+              disabled={isDeleting || isLoading}
+              className="inline-flex items-center justify-center rounded-2xl border border-rose-200 bg-rose-50 px-5 py-3 text-sm font-semibold text-rose-700 transition hover:bg-rose-100 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              {isDeleting ? "削除中..." : "削除する"}
+            </button>
           </div>
-        </form>
+        </article>
       </div>
     </main>
   );
